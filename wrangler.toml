@@ -1,0 +1,39 @@
+name = "zmailv"
+main = "worker/src/index.ts"
+
+# 打包配置
+minify = true # 生产环境压缩代码
+compatibility_flags = [ "nodejs_compat" ]
+compatibility_date = "2025-03-01"
+
+# 设置自定义域名
+routes = [
+  { pattern = "tokonasgor.cyou", custom_domain = true }
+]
+
+# 启用 D1 数据库
+[[d1_databases]]
+binding = "DB"
+database_name = "temp-mail-database"  # 替换为您的实际的数据库 NAME
+database_id = "ad7b0567-bff8-4ea0-81b1-f083c972ac0c"  # 需要替换为您的实际数据库 ID
+
+# 设置域名
+[vars]
+VITE_EMAIL_DOMAIN = "https://psychic-potato-5g9prr7v74g5cpwq-5173.app.github.dev"   # 替换为您的域名列表，多个域名使用逗号 , 分割。这里的域名只是用来网页上展示，方便复制粘贴使用。
+
+# 配置邮件处理
+[triggers]
+crons = ["0 * * * *"]  # 每小时运行一次清理任务
+
+[build]
+command = "pnpm run build"
+
+[assets]
+binding = "ASSETS"
+directory = "frontend/dist"
+not_found_handling = "single-page-application"
+
+# 默认开启日志，方便调试
+[observability]
+enabled = false
+head_sampling_rate = 1 # optional. default = 1.
